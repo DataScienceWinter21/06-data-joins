@@ -1,0 +1,179 @@
+---
+title: "More Data Wrangling and Join Tables"
+author: "Bastola"
+date: "`r format(Sys.Date(), ' %B %d %Y')`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      collapse = TRUE, 
+                      comment=NA, 
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.height = 4, fig.width = 6, fig.align='center')
+
+
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(tibble)
+library(purrr) 
+library(tidyverse) 
+```
+
+
+```{r}
+artists <- tibble(first = c("Jimmy", "George", "Mick", "Tom", "Davy", "John",
+                            "Paul", "Jimmy", "Joe", "Elvis", "Keith", "Paul", 
+                            "Ringo", "Joe", "Brian", "Nancy"), 
+                  last = c("Buffett", "Harrison", "Jagger", "Jones", "Jones", 
+                           "Lennon", "McCartney", "Page", "Perry", "Presley",
+                           "Richards", "Simon", "Starr", "Walsh", "Wilson", "Wilson"), 
+                  instrument = c("Guitar", "Guitar", "Vocals", "Vocals", "Vocals",
+                                 "Guitar", "Bass", "Guitar", "Guitar", "Vocals", "Guitar", 
+                                 "Guitar", "Drums", "Guitar", "Vocals", "Vocals"))
+
+
+bands <- tibble(first = c("John", "John Paul", "Jimmy", "Robert", "George", "John", 
+                          "Paul", "Ringo", "Jimmy", "Mick", "Keith", "Charlie", "Ronnie"), 
+                last = c("Bonham", "Jones", "Page", "Plant", "Harrison", "Lennon",
+                         "McCartney", "Starr", "Buffett", "Jagger", "Richards", "Watts", "Wood"), 
+                band = c("Led Zeppelin", "Led Zeppelin", "Led Zeppelin", "Led Zeppelin",
+                         "The Beatles", "The Beatles", "The Beatles", "The Beatles",
+                         "The Coral Reefers", "The Rolling Stones", "The Rolling Stones",
+                         "The Rolling Stones", "The Rolling Stones"))
+
+```
+
+
+## Your Turn 1
+
+```{r}
+glimpse(artists)
+glimpse(bands)
+```
+
+### a. Use `left_join()` to join artists to bands.
+
+```{r}
+bands2 <- left_join(_____,_____, by = c("first", "last"))
+
+```
+
+### b. Use `right`_join()` to join bands to artists.
+
+```{r}
+bands3 <- right_join(_____, ______, by = c("first", "last"))
+```
+
+### c. Use `setequal()` to check that the datasets are the same.
+
+```{r}
+
+```
+
+
+------------------------------------------------------
+
+
+```{r}
+albums <- tibble(album = c("A Hard Day's Night", "Magical Mystery Tour", "Beggar's Banquet",
+                           "Abbey Road", "Led Zeppelin IV", "The Dark Side of the Moon", "Aerosmith",
+                           "Rumours", "Hotel California"),
+                 band = c("The Beatles", "The Beatles", "The Rolling Stones", "The Beatles", 
+                          "Led Zeppelin", "Pink Floyd", "Aerosmith", "Fleetwood Mac", "Eagles"), 
+                 year = c(1964,1967,1968,1969,1971,1973,1973,1977,1982))
+
+
+songs <- tibble(song = c("Come Together", "Dream On", "Hello, Goodbye", "It's Not Unusual"),
+                album  = c("Abbey Road", "Aerosmith", "Magical Mystery Tour", "Along Came Jones"), 
+                first = c("John", "Steven", "Paul", "Tom"), 
+                last = c("Lennon", "Tyler", "McCartney", "Jones"))
+
+
+labels <- tibble(album = c("Abbey Road", "A Hard Days Night", "Magical Mystery Tour",
+                           "Led Zeppelin IV", "The Dark Side of the Moon", "Hotel California", 
+                           "Rumours", "Aerosmith", "Beggar's Banquet"), 
+                 label = c("Apple", "Parlophone", "Parlophone", "Atlantic", "Harvest",
+                           "Asylum", "Warner Brothers", "Columbia", "Decca"))
+                       
+
+```
+
+
+```{r}
+glimpse(albums)
+glimpse(songs)
+glimpse(labels)
+```
+
+
+## Your Turn 2
+
+### a. Use `inner_join()` to join albums to songs.
+
+```{r}
+inner_join(____, _____, by = ______)
+```
+
+### b. Use `full_join()` to join bands to artists.
+
+```{r}
+full_join(______, _____, by = ________)
+```
+
+
+### c. Do the above two parts using the pipe operator, `%>%`.
+
+```{r}
+______ %>% 
+  full_join(______, by = ________)
+```
+
+
+### d. Create one table that combines all information
+
+```{r}
+artists %>% 
+  full_join(_____, by = c("first", "last")) %>% 
+  full_join(_____, by = c("first", "last")) %>% 
+  full_join(_____, by = c("album", "band"))
+```
+
+
+## Your turn 3
+
+### a. Collect artists that have songs provided.
+
+```{r}
+artists %>% 
+  semi_join(____, by = c("first", "last"))
+```
+
+
+### b.  Collect the albums made by a band and count them using `nrow`.
+
+```{r}
+
+```
+
+### c. Return rows of artists that don't have bands info. Hint use `anti_join()`.
+
+```{r}
+artists %>% 
+  anti_join(___, by = c("first","last"))
+```
+
+
+### d. Find the rows of songs that match a row in labels and find the number of rows.
+
+```{r}
+
+
+```
+
+
